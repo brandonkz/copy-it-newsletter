@@ -6,14 +6,18 @@
 
 export const BRAND = {
   name: "Copy It",
-  accent: "#1F4FFF",
-  text: "#0E1116",
-  muted: "#4A5363",
-  mist: "#F3F5F9",
+  text: "#0B0F0C",
+  muted: "#304136",
+  paper: "#F7F5EE",
+  deep: "#0F3D2E",
+  cta: "#15803D",
+  bright: "#16A34A",
+  gold: "#E8B931",
+  foam: "#E4E0D4",
   title: "Copy It | Overseas business ideas you can copy",
   description:
     "3 proven business ideas from overseas every week. How they make money and how to launch them in South Africa. Free.",
-  h1: "Business ideas working overseas. Before they hit South Africa.",
+  h1: "Replicate success. Don't try to reinvent things. Copy brilliant ideas.",
 };
 
 /**
@@ -25,6 +29,13 @@ export const AUTHOR = {
   photo: "",
   credential: "",
 };
+
+/**
+ * TODO: Extra social proof, such as a quote or a list size.
+ * Leave this empty. Do not invent a figure or a testimonial.
+ * The homepage renders nothing until real entries are added.
+ */
+export const EXTRA_SOCIAL_PROOF = [];
 
 export const TIKTOK_URL = "https://www.tiktok.com/@hecticza";
 
@@ -72,6 +83,7 @@ export function getSiteConfig(env = process.env) {
     instagramUrl: INSTAGRAM_URL,
     contactEmail: CONTACT_EMAIL,
     author: AUTHOR,
+    extraSocialProof: EXTRA_SOCIAL_PROOF,
     ga4MeasurementId: resolveGa4(env),
     redirectToThankYou: resolveRedirect(env),
     sendWelcomeEmail: SEND_WELCOME_EMAIL,

@@ -29,8 +29,8 @@ const sharp = (await import("sharp")).default;
 
 const faviconSvg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="8" fill="${BRAND.accent}"/>
-  <path d="M22.4 10.6a8 8 0 1 0 .1 10.8" fill="none" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round"/>
+  <rect width="32" height="32" rx="8" fill="${BRAND.deep}"/>
+  <path d="M22.4 10.6a8 8 0 1 0 .1 10.8" fill="none" stroke="#F7F5EE" stroke-width="3.2" stroke-linecap="round"/>
 </svg>
 `;
 await writeFile(join(publicDir, "favicon.svg"), faviconSvg);
@@ -41,15 +41,18 @@ await writeFile(join(publicDir, "favicon-32.png"), favicon32);
 await writeFile(join(publicDir, "apple-touch-icon.png"), apple);
 await writeFile(join(publicDir, "favicon.ico"), pngToIco(favicon32, 32));
 
-const line1 = "Business ideas working overseas.";
-const line2 = "Before they hit South Africa.";
+const line1 = "Replicate success.";
+const line2 = "Don't try to reinvent things.";
+const line3 = "Copy brilliant ideas.";
 const ogSvg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
-  <rect width="1200" height="630" fill="#ffffff"/>
-  <rect width="1200" height="16" fill="${BRAND.accent}"/>
-  <text x="80" y="168" fill="${BRAND.accent}" font-family="Space Grotesk" font-size="42" font-weight="700">${escapeXml(BRAND.name)}</text>
-  <text x="80" y="300" fill="${BRAND.text}" font-family="Space Grotesk" font-size="52" font-weight="700">${escapeXml(line1)}</text>
-  <text x="80" y="372" fill="${BRAND.text}" font-family="Space Grotesk" font-size="52" font-weight="700">${escapeXml(line2)}</text>
+  <rect width="1200" height="630" fill="${BRAND.paper}"/>
+  <rect width="1200" height="16" fill="${BRAND.deep}"/>
+  <text x="80" y="150" fill="${BRAND.deep}" font-family="Space Grotesk" font-size="42" font-weight="700">${escapeXml(BRAND.name)}</text>
+  <text x="80" y="270" fill="${BRAND.text}" font-family="Space Grotesk" font-size="52" font-weight="700">${escapeXml(line1)}</text>
+  <text x="80" y="348" fill="${BRAND.text}" font-family="Space Grotesk" font-size="52" font-weight="700">${escapeXml(line2)}</text>
+  <rect x="76" y="392" width="560" height="16" fill="${BRAND.gold}"/>
+  <text x="80" y="426" fill="${BRAND.text}" font-family="Space Grotesk" font-size="52" font-weight="700">${escapeXml(line3)}</text>
   <text x="80" y="540" fill="${BRAND.muted}" font-family="Space Grotesk" font-size="28" font-weight="500">Free weekly newsletter</text>
 </svg>
 `;

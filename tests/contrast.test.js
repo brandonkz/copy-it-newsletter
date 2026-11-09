@@ -15,20 +15,26 @@ function luminance(hex) {
   return 0.2126 * channel(r) + 0.7152 * channel(g) + 0.0722 * channel(b);
 }
 
-function contrast(a, b) {
+export function contrast(a, b) {
   const lighter = Math.max(luminance(a), luminance(b));
   const darker = Math.min(luminance(a), luminance(b));
   return (lighter + 0.05) / (darker + 0.05);
 }
 
-test("brand colours meet WCAG AA for the text that uses them", () => {
-  assert.ok(contrast("#ffffff", BRAND.accent) >= 4.5, "white on accent");
-  assert.ok(contrast(BRAND.accent, "#ffffff") >= 4.5, "accent on white");
-  assert.ok(contrast(BRAND.muted, BRAND.mist) >= 4.5, "muted on mist");
+test("money palette pairs meet WCAG AA", () => {
+  assert.ok(contrast("#ffffff", BRAND.cta) >= 4.5, "white on CTA green");
+  assert.ok(contrast("#ffffff", BRAND.deep) >= 4.5, "white on deep green");
+  assert.ok(contrast(BRAND.paper, BRAND.deep) >= 4.5, "paper on deep green");
+  assert.ok(contrast(BRAND.foam, BRAND.deep) >= 4.5, "foam on deep green");
+  assert.ok(contrast(BRAND.text, BRAND.paper) >= 4.5, "ink on paper");
+  assert.ok(contrast(BRAND.text, "#ffffff") >= 4.5, "ink on white");
+  assert.ok(contrast(BRAND.text, BRAND.gold) >= 4.5, "ink on gold");
+  assert.ok(contrast(BRAND.muted, BRAND.paper) >= 4.5, "muted on paper");
   assert.ok(contrast(BRAND.muted, "#ffffff") >= 4.5, "muted on white");
-  assert.ok(contrast(BRAND.text, "#ffffff") >= 4.5, "text on white");
-  assert.ok(contrast(BRAND.text, BRAND.mist) >= 4.5, "text on mist");
-  assert.ok(contrast("#ffffff", BRAND.text) >= 4.5, "white on ink");
-  assert.ok(contrast(BRAND.accent, BRAND.mist) >= 4.5, "accent on mist");
-  assert.ok(contrast("#9f1239", "#ffffff") >= 4.5, "error on white");
+  assert.ok(contrast(BRAND.deep, BRAND.paper) >= 4.5, "deep green text on paper");
+  assert.ok(contrast(BRAND.deep, "#ffffff") >= 4.5, "deep green text on white");
+  assert.ok(contrast(BRAND.cta, BRAND.paper) >= 4.5, "CTA green text on paper");
+  assert.ok(contrast(BRAND.cta, "#ffffff") >= 4.5, "CTA green text on white");
+  assert.ok(contrast("#ffffff", BRAND.bright) < 4.5, "white on #16A34A is not AA for normal text");
+  assert.ok(contrast(BRAND.gold, BRAND.paper) < 4.5, "gold text on paper is not AA");
 });

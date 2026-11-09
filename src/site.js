@@ -80,9 +80,10 @@
 
   function setStatus(status, message, isError) {
     status.textContent = message;
-    status.classList.toggle("text-danger", Boolean(isError) && Boolean(message));
-    status.classList.toggle("text-ink", Boolean(message) && !isError);
-  }
+  status.classList.toggle("text-deep", Boolean(isError) && Boolean(message));
+  status.classList.toggle("text-ink", Boolean(message) && !isError);
+  status.classList.toggle("is-success", Boolean(message) && !isError);
+}
 
   function bindForm(form) {
     var input = form.querySelector("input[type='email']");
@@ -180,7 +181,87 @@
     });
   }
 
+  function setupCount() {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!("IntersectionObserver" in window)) return;
+    var nodes = document.querySelectorAll(".stat");
+    if (!nodes.length) return;
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        observer.unobserve(entry.target);
+        animateStat(entry.target);
+      });
+    }, { threshold: 0.5 });
+    nodes.forEach(function (node) { observer.observe(node); });
+  }
+
+  function animateStat(el) {
+    var original = el.textContent;
+    var match = original.match(/\d[\d,]*/);
+    if (!match) return;
+    var token = match[0];
+    var target = Number(token.replace(/,/g, ""));
+    if (!Number.isFinite(target)) return;
+    var start = original.indexOf(token);
+    var prefix = original.slice(0, start);
+    var suffix = original.slice(start + token.length);
+    var probe = document.createElement("span");
+    probe.textContent = token;
+    probe.style.position = "absolute";
+    probe.style.visibility = "hidden";
+    probe.style.font = getComputedStyle(el).font;
+    document.body.appendChild(probe);
+    var width = probe.getBoundingClientRect().width;
+    probe.remove();
+    var number = document.createElement("span");
+    number.style.display = "inline-block";
+    number.style.width = width + "px";
+    number.style.fontVariantNumeric = "tabular-nums";
+    el.setAttribute("aria-label", original);
+    el.textContent = "";
+    el.appendChild(document.createTextNode(prefix));
+    el.appendChild(number);
+    el.appendChild(document.createTextNode(suffix));
+    var began = performance.now();
+    var duration = 1100;
+    function frame(now) {
+      var progress = Math.min(1, (now - began) / duration);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      var value = Math.round(target * eased);
+      number.textContent = token.indexOf(",") === -1 ? String(value) : value.toLocaleString("en-US");
+      if (progress < 1) requestAnimationFrame(frame);
+      else {
+        el.textContent = original;
+        el.removeAttribute("aria-label");
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function setupMotion() {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!("IntersectionObserver" in window)) return;
+    var nodes = document.querySelectorAll(".reveal");
+    if (!nodes.length) return;
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-in");
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+    nodes.forEach(function (node) {
+      var rect = node.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) node.classList.add("is-in");
+      else observer.observe(node);
+    });
+    document.documentElement.classList.add("motion");
+  }
+
   captureUtms();
+  setupMotion();
+  setupCount();
   document.querySelectorAll("form[data-subscribe]").forEach(function (form) {
     fillHidden(form);
     bindForm(form);

@@ -2,7 +2,7 @@
 
 Landing site for Copy It, Brandon’s weekly newsletter of overseas business ideas for South Africa. It is live at [https://copyit.studio](https://copyit.studio). One job: collect email sign-ups.
 
-The pages are static HTML styled with Tailwind CSS, compiled and purged at build time. Sign-ups go to one Vercel function, `api/subscribe`, which calls the Beehiiv API. The Beehiiv API key never reaches the browser.
+The pages are static HTML styled with Tailwind CSS, compiled and purged at build time. Layout and motion notes are in `DESIGN-NOTES.md`. Sign-ups go to one Vercel function, `api/subscribe`, which calls the Beehiiv API. The Beehiiv API key never reaches the browser.
 
 ## Local development
 

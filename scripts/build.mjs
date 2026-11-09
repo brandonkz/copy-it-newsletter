@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { execFile } from "node:child_process";
+import { existsSync } from "node:fs";
 import { mkdir, readFile, readdir, rm, stat, writeFile, copyFile } from "node:fs/promises";
 import { gzipSync } from "node:zlib";
 import { dirname, join } from "node:path";
@@ -19,6 +20,9 @@ const RAW = new Set([
   "GA_SNIPPET",
   "IDEAS",
   "AUTHOR",
+  "EXTRA_PROOF",
+  "ABOUT_CARD",
+  "HALFTONE_SCRIPT",
   "ANALYTICS_ITEM",
   "ANALYTICS_PROCESSORS",
 ]);
@@ -76,6 +80,8 @@ const siteJs = await readFile(join(root, "src", "site.js"));
 const jsName = `site.${hash(siteJs)}.js`;
 await writeFile(join(dist, "assets", jsName), siteJs);
 
+const halftone = await halftoneAsset(config.author);
+
 const ga = gaAssets(config.ga4MeasurementId);
 if (ga.fileName) {
   await writeFile(join(dist, "assets", ga.fileName), ga.source);
@@ -98,6 +104,9 @@ const shared = {
   OG_ALT: `${config.name}. ${config.h1}`,
   IDEAS: ideasHtml,
   AUTHOR: renderAuthor(config.author),
+  EXTRA_PROOF: renderExtraProof(config.extraSocialProof),
+  ABOUT_CARD: renderAboutCard(config.author),
+  HALFTONE_SCRIPT: halftone.tag,
   ANALYTICS_ITEM: config.ga4MeasurementId
     ? "If you browse the site: pages you view, plus general device, browser, and approximate location data, through Google Analytics 4. The tag is Google's gtag.js library, added on this site directly. Google Tag Manager is not used."
     : "Analytics is not loaded on this version of the site.",
@@ -145,9 +154,49 @@ await writeFile(
 
 await verify(cssName, jsName);
 
+function renderExtraProof(items) {
+  if (!Array.isArray(items) || items.length === 0) return "";
+  const rows = items
+    .filter((item) => item && typeof item.text === "string" && item.text.trim())
+    .map((item) => `<li>${escapeHtml(item.text)}</li>`);
+  if (!rows.length) return "";
+  return `<ul class="mt-3 space-y-1 text-sm text-muted">${rows.join("")}</ul>`;
+}
+
+function authorReady(author) {
+  return Boolean(author?.credential && author.credential.trim() && photoReady(author.photo));
+}
+
+function photoReady(photo) {
+  if (typeof photo !== "string" || !photo.trim()) return false;
+  if (/^https:\/\//.test(photo)) return true;
+  const relative = photo.replace(/^\//, "");
+  if (relative.includes("..")) return false;
+  return existsSync(join(root, "public", relative));
+}
+
+function portrait(author, sizeClass, size) {
+  return `<span data-halftone class="${sizeClass} inline-block overflow-hidden rounded-full"><img src="${escapeHtml(author.photo)}" alt="" width="${size}" height="${size}"></span>`;
+}
+
 function renderAuthor(author) {
-  if (!author?.photo || !author?.credential) return "";
-  return `<p class="mt-6 flex items-center gap-3"><img src="${escapeHtml(author.photo)}" alt="" width="44" height="44" class="h-11 w-11 rounded-full object-cover"><span class="text-sm leading-5 text-ink"><span class="font-semibold">Written by ${escapeHtml(author.name || "Brandon K")}</span><span class="mt-0.5 block text-muted">${escapeHtml(author.credential)}</span></span></p>`;
+  if (!authorReady(author)) return "";
+  return `<p class="mt-6 flex items-center gap-3">${portrait(author, "h-11 w-11", 44)}<span class="text-sm leading-5 text-ink"><span class="font-semibold">Written by Brandon</span><span class="mt-0.5 block text-muted">${escapeHtml(author.credential)}</span></span></p>`;
+}
+
+function renderAboutCard(author) {
+  if (!authorReady(author)) {
+    return `<div class="lift mt-10 rounded-2xl border border-dashed border-ink/30 bg-white p-6 sm:p-8"><div class="flex h-16 w-16 items-center justify-center rounded-full border border-dashed border-ink/30 text-xs font-semibold uppercase tracking-wide text-muted" role="img" aria-label="TODO: Brandon's photo">TODO</div><h2 class="mt-5 font-display text-2xl font-semibold tracking-tight text-ink">TODO: Brandon's photo, name, and credential line</h2><p class="mt-3 text-base leading-relaxed text-muted">This block is a placeholder. No photo, bio, or credentials are published until Brandon adds them.</p></div>`;
+  }
+  return `<div class="mt-10 flex items-center gap-4 rounded-2xl border border-ink/10 bg-white p-6 sm:p-8">${portrait(author, "h-24 w-24", 96)}<div><h2 class="font-display text-2xl font-semibold tracking-tight text-ink">Written by Brandon</h2><p class="mt-2 text-base leading-relaxed text-muted">${escapeHtml(author.credential)}</p></div></div>`;
+}
+
+async function halftoneAsset(author) {
+  if (!authorReady(author)) return { tag: "" };
+  const source = await readFile(join(root, "src", "halftone.js"));
+  const name = `halftone.${hash(source)}.js`;
+  await writeFile(join(dist, "assets", name), source);
+  return { tag: `<script src="/assets/${name}" defer></script>` };
 }
 
 function renderIdeas(ideas, template) {
@@ -226,7 +275,7 @@ async function verify(cssName, jsName) {
   expect(index.includes(config.tiktokUrl), "tiktok");
   expect(index.includes(config.instagramUrl), "instagram");
   expect(index.includes("Get the ideas"), "hero button");
-  expect(index.includes("Before they hit South Africa."), "south africa headline");
+  expect(index.includes(">Replicate<") && index.includes(">success.<") && index.includes(">Don't<") && index.includes(">reinvent<") && index.includes(">ideas.<"), "headline");
   expect(index.includes("in South Africa. Free."), "south africa description");
   expect(!index.includes("your market") && !index.includes("Turn on JavaScript"), "old copy removed");
   expect(!index.includes("samples of the format"), "sample disclaimer removed");
@@ -235,7 +284,8 @@ async function verify(cssName, jsName) {
   expect(!index.includes("cdn.tailwindcss.com"), "no tailwind cdn");
   expect(!index.includes("gtm.js") && !index.includes("GTM-"), "no tag manager");
   expect(!jsText.includes("gtm.js") && !jsText.includes("GTM-"), "no tag manager in script");
-  expect(cssText.includes("--color-accent"), "accent color");
+  expect(cssText.includes("--color-cta:#15803d") || cssText.includes("--color-cta: #15803d"), "cta color");
+  expect(!cssText.includes("#1f4fff") && !index.includes("#1F4FFF"), "old blue removed");
   expect(jsText.includes("form_submit_hero") && jsText.includes("form_submit_footer"), "form events");
   expect(jsText.includes("social_click"), "social event");
   if (config.ga4MeasurementId) {
