@@ -26,6 +26,13 @@ export const AUTHOR = {
   credential: "",
 };
 
+/**
+ * TODO: Extra social proof, such as a quote or a list size.
+ * Leave this empty. Do not invent a figure or a testimonial.
+ * The homepage renders nothing until real entries are added.
+ */
+export const EXTRA_SOCIAL_PROOF = [];
+
 export const TIKTOK_URL = "https://www.tiktok.com/@hecticza";
 
 export const INSTAGRAM_URL = "https://www.instagram.com/brandonkzar/";
@@ -72,6 +79,7 @@ export function getSiteConfig(env = process.env) {
     instagramUrl: INSTAGRAM_URL,
     contactEmail: CONTACT_EMAIL,
     author: AUTHOR,
+    extraSocialProof: EXTRA_SOCIAL_PROOF,
     ga4MeasurementId: resolveGa4(env),
     redirectToThankYou: resolveRedirect(env),
     sendWelcomeEmail: SEND_WELCOME_EMAIL,

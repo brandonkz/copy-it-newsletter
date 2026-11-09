@@ -80,9 +80,10 @@
 
   function setStatus(status, message, isError) {
     status.textContent = message;
-    status.classList.toggle("text-danger", Boolean(isError) && Boolean(message));
-    status.classList.toggle("text-ink", Boolean(message) && !isError);
-  }
+  status.classList.toggle("text-danger", Boolean(isError) && Boolean(message));
+  status.classList.toggle("text-ink", Boolean(message) && !isError);
+  status.classList.toggle("is-success", Boolean(message) && !isError);
+}
 
   function bindForm(form) {
     var input = form.querySelector("input[type='email']");
@@ -180,7 +181,28 @@
     });
   }
 
+  function setupMotion() {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!("IntersectionObserver" in window)) return;
+    var nodes = document.querySelectorAll(".reveal");
+    if (!nodes.length) return;
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-in");
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+    nodes.forEach(function (node) {
+      var rect = node.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) node.classList.add("is-in");
+      else observer.observe(node);
+    });
+    document.documentElement.classList.add("motion");
+  }
+
   captureUtms();
+  setupMotion();
   document.querySelectorAll("form[data-subscribe]").forEach(function (form) {
     fillHidden(form);
     bindForm(form);

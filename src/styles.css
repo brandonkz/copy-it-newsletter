@@ -63,6 +63,83 @@ input[aria-invalid="true"] {
   transform: translateY(1rem);
 }
 
+input.field:focus-visible {
+  border-color: #1f4fff;
+  outline: 2px solid #1f4fff;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .rise {
+    animation: rise 700ms ease both;
+  }
+
+  .rise-2 { animation-delay: 70ms; }
+  .rise-3 { animation-delay: 140ms; }
+  .rise-4 { animation-delay: 210ms; }
+  .rise-5 { animation-delay: 280ms; }
+
+  html.motion .reveal:not(.is-in) {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  html.motion .reveal {
+    transition: opacity 600ms ease, transform 600ms ease;
+  }
+
+  .lift {
+    transition: transform 180ms ease, border-color 180ms ease;
+  }
+
+  .lift:hover {
+    transform: translateY(-3px);
+    border-color: #1f4fff;
+  }
+
+  .lift:active {
+    transform: translateY(0);
+  }
+
+  .press {
+    transition: transform 120ms ease, background-color 120ms ease;
+  }
+
+  .press:hover {
+    transform: translateY(-1px);
+  }
+
+  .press:active {
+    transform: translateY(1px);
+  }
+
+  [data-status].is-success {
+    animation: confirm 420ms ease;
+  }
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(8px);
+  }
+
+  to {
+    transform: none;
+  }
+}
+
+@keyframes confirm {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

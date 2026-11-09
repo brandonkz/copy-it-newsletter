@@ -19,6 +19,7 @@ const RAW = new Set([
   "GA_SNIPPET",
   "IDEAS",
   "AUTHOR",
+  "EXTRA_PROOF",
   "ANALYTICS_ITEM",
   "ANALYTICS_PROCESSORS",
 ]);
@@ -98,6 +99,7 @@ const shared = {
   OG_ALT: `${config.name}. ${config.h1}`,
   IDEAS: ideasHtml,
   AUTHOR: renderAuthor(config.author),
+  EXTRA_PROOF: renderExtraProof(config.extraSocialProof),
   ANALYTICS_ITEM: config.ga4MeasurementId
     ? "If you browse the site: pages you view, plus general device, browser, and approximate location data, through Google Analytics 4. The tag is Google's gtag.js library, added on this site directly. Google Tag Manager is not used."
     : "Analytics is not loaded on this version of the site.",
@@ -144,6 +146,15 @@ await writeFile(
 );
 
 await verify(cssName, jsName);
+
+function renderExtraProof(items) {
+  if (!Array.isArray(items) || items.length === 0) return "";
+  const rows = items
+    .filter((item) => item && typeof item.text === "string" && item.text.trim())
+    .map((item) => `<li>${escapeHtml(item.text)}</li>`);
+  if (!rows.length) return "";
+  return `<ul class="mt-3 space-y-1 text-sm text-muted">${rows.join("")}</ul>`;
+}
 
 function renderAuthor(author) {
   if (!author?.photo || !author?.credential) return "";
