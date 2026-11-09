@@ -30,7 +30,7 @@ Copy `.env.example` to `.env`. On Vercel, set the same names in the project sett
 
 | Name | When it is read | Purpose |
 | --- | --- | --- |
-| `SITE_URL` | Build | Canonical and Open Graph origin, with no path and no trailing slash. Optional on Vercel: the build uses `https://$VERCEL_PROJECT_PRODUCTION_URL`, then `https://$VERCEL_URL`, then `http://localhost:4173`. Set this when you want a specific `*.vercel.app` hostname, or later when you add a custom domain. |
+| `SITE_URL` | Build | Canonical and Open Graph origin, with no path and no trailing slash. Optional on Vercel: the build uses `https://$VERCEL_PROJECT_PRODUCTION_URL`, then `https://$VERCEL_URL`, then `https://copyit.studio`. Set this when you want a specific `*.vercel.app` hostname, or later when you add a custom domain. |
 | `GA4_MEASUREMENT_ID` | Build | Optional override for the Google tag. The committed default is `G-WP1K1WK42Y`. A valid `G-` ID replaces it. `off` (or any other non-ID value) loads no tag. |
 | `BEEHIIV_API_KEY` | Request | Beehiiv API key. Server only. Required. Never commit it. |
 | `BEEHIIV_PUBLICATION_ID` | Request | Optional. Defaults to the Fitsorted publication `pub_cec2d599-5490-49b5-bb78-7cd7a9831890`. |
