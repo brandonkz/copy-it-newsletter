@@ -1,0 +1,78 @@
+<section class="mx-auto max-w-3xl px-5 pb-16 pt-14 sm:pb-24 sm:pt-20" aria-labelledby="hero-heading">
+  <p class="inline-flex items-center rounded-full border border-accent/25 px-3 py-1 text-sm font-semibold text-accent">Free weekly newsletter</p>
+  <h1 id="hero-heading" class="mt-6 font-display text-4xl font-semibold leading-[1.08] tracking-tight text-balance text-ink sm:text-5xl lg:text-6xl">Business ideas working overseas. Before they hit your market.</h1>
+  <p class="mt-6 max-w-2xl text-lg leading-relaxed text-muted">Every week you get 3 proven ideas from abroad. What they are, how they make money, and what it takes to launch one at home.</p>
+  <form class="mt-8" data-subscribe novalidate>
+    <input type="hidden" name="source" value="hero">
+    <div class="flex flex-col gap-3 sm:flex-row">
+      <div class="min-w-0 flex-1">
+        <label class="sr-only" for="email-hero">Email address</label>
+        <input id="email-hero" name="email" type="email" autocomplete="email" inputmode="email" enterkeyhint="send" autocapitalize="none" autocorrect="off" spellcheck="false" required maxlength="254" placeholder="you@email.com" aria-describedby="hero-note" class="min-h-12 w-full rounded-xl border border-ink/15 bg-white px-4 py-3 text-base text-ink placeholder:text-muted">
+      </div>
+      <button type="submit" class="inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-accent px-6 py-3 text-base font-semibold text-white hover:bg-accent-pressed disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto">Get the ideas</button>
+    </div>
+    <p id="hero-note" class="mt-3 text-sm leading-6 text-muted">Free. One email a week. Unsubscribe anytime.</p>
+    <p data-status role="status" aria-live="polite" class="mt-2 min-h-6 text-sm font-semibold"></p>
+    <noscript><p class="mt-2 text-sm text-muted">Turn on JavaScript to subscribe.</p></noscript>
+  </form>
+  <p class="mt-6 text-sm font-semibold tracking-wide text-ink">10,000 on TikTok · 1,800 on Instagram</p>
+</section>
+
+<section class="bg-ink text-white" aria-labelledby="gift-heading">
+  <div class="mx-auto flex max-w-5xl flex-col items-start gap-8 px-5 py-14 sm:flex-row sm:items-center sm:justify-between sm:py-16">
+    <h2 id="gift-heading" class="max-w-xl font-display text-2xl font-semibold leading-snug tracking-tight text-balance sm:text-3xl">Free when you join: 10 overseas ideas nobody has launched in South Africa yet.</h2>
+    <a href="#join" data-scroll-join class="inline-flex min-h-12 w-full shrink-0 items-center justify-center rounded-xl bg-white px-6 py-3 text-base font-semibold text-ink sm:w-auto">Send me the list</a>
+  </div>
+</section>
+
+<section class="bg-mist" aria-labelledby="covers-heading">
+  <div class="mx-auto max-w-5xl px-5 py-16 sm:py-24">
+    <h2 id="covers-heading" class="font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">What every issue covers</h2>
+    <ol class="mt-10 grid list-none gap-4 p-0 sm:grid-cols-3">
+      <li class="rounded-2xl border border-ink/10 bg-white p-6 sm:p-8">
+        <p class="font-display text-sm font-semibold tracking-wide text-accent">01</p>
+        <h3 class="mt-4 font-display text-xl font-semibold text-ink">The idea</h3>
+        <p class="mt-3 text-base leading-relaxed text-muted">What the business is, where it works, and why people pay for it.</p>
+      </li>
+      <li class="rounded-2xl border border-ink/10 bg-white p-6 sm:p-8">
+        <p class="font-display text-sm font-semibold tracking-wide text-accent">02</p>
+        <h3 class="mt-4 font-display text-xl font-semibold text-ink">How it makes money</h3>
+        <p class="mt-3 text-base leading-relaxed text-muted">Pricing, margins and the setup costs. No fluff.</p>
+      </li>
+      <li class="rounded-2xl border border-ink/10 bg-white p-6 sm:p-8">
+        <p class="font-display text-sm font-semibold tracking-wide text-accent">03</p>
+        <h3 class="mt-4 font-display text-xl font-semibold text-ink">How to copy it</h3>
+        <p class="mt-3 text-base leading-relaxed text-muted">Suppliers, tools and the first steps to launch it locally.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section aria-labelledby="issues-heading">
+  <div class="mx-auto max-w-5xl px-5 py-16 sm:py-24">
+    <h2 id="issues-heading" class="font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">A taste of past issues</h2>
+    {{SAMPLE_NOTE}}
+    <ul class="mt-10 grid list-none gap-4 p-0 sm:grid-cols-3">
+      {{IDEAS}}
+    </ul>
+  </div>
+</section>
+
+<section id="join" class="bg-mist" aria-labelledby="join-heading">
+  <div class="mx-auto max-w-3xl px-5 py-16 sm:py-24">
+    <h2 id="join-heading" class="font-display text-3xl font-semibold tracking-tight text-balance text-ink sm:text-4xl">Spot the next big idea before everyone else.</h2>
+    <p id="join-note" class="mt-4 text-lg leading-relaxed text-muted">Join free. Get 10 ideas today and 3 more every week.</p>
+    <form class="mt-8" data-subscribe novalidate>
+      <input type="hidden" name="source" value="footer">
+      <div class="flex flex-col gap-3 sm:flex-row">
+        <div class="min-w-0 flex-1">
+          <label class="sr-only" for="email-footer">Email address</label>
+          <input id="email-footer" name="email" type="email" autocomplete="email" inputmode="email" enterkeyhint="send" autocapitalize="none" autocorrect="off" spellcheck="false" required maxlength="254" placeholder="you@email.com" aria-describedby="join-note" class="min-h-12 w-full rounded-xl border border-ink/15 bg-white px-4 py-3 text-base text-ink placeholder:text-muted">
+        </div>
+        <button type="submit" class="inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-accent px-6 py-3 text-base font-semibold text-white hover:bg-accent-pressed disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto">Get the ideas</button>
+      </div>
+      <p data-status role="status" aria-live="polite" class="mt-3 min-h-6 text-sm font-semibold"></p>
+      <noscript><p class="mt-2 text-sm text-muted">Turn on JavaScript to subscribe.</p></noscript>
+    </form>
+  </div>
+</section>

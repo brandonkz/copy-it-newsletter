@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --color-accent: #1f4fff;
+  --color-accent-pressed: #1638c7;
+  --color-ink: #0e1116;
+  --color-muted: #4a5363;
+  --color-mist: #f3f5f9;
+  --color-danger: #9f1239;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-wrap: break-word;
+}
+
+#join {
+  scroll-margin-top: 5.5rem;
+}
+
+:focus-visible {
+  outline: 2px solid #1f4fff;
+  outline-offset: 3px;
+}
+
+.bg-ink :focus-visible {
+  outline-color: #ffffff;
+}
+
+input[aria-invalid="true"] {
+  border-color: #9f1239;
+}
+
+::selection {
+  background: #1f4fff;
+  color: #ffffff;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: 0;
+  z-index: 50;
+  transform: translateY(-150%);
+  border-radius: 0.75rem;
+  background: #ffffff;
+  color: #0e1116;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  transform: translateY(1rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
