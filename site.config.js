@@ -52,7 +52,7 @@ export const BEEHIIV_PUBLICATION_ID = "pub_cec2d599-5490-49b5-bb78-7cd7a9831890"
 export const BEEHIIV_BRAND_VALUE = "copy-it";
 
 const GA4_PATTERN = /^G-[A-Z0-9]+$/;
-const LOCAL_SITE_URL = "http://localhost:4173";
+const LOCAL_SITE_URL = "https://copyit.studio";
 
 export function getSiteConfig(env = process.env) {
   return {
