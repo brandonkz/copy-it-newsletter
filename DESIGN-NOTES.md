@@ -36,4 +36,16 @@ Principles taken from current marketing sites, and where they show up on Copy It
 
 ## Button and focus states
 
-**Vercel and Stripe.** Primary buttons stay solid accent with white text, at least 48px tall. Focus uses a 2px accent outline, offset from the control. On the ink thank-you button the outline switches to white so it stays visible. Invalid email keeps the existing dark red border, which is only an error state, not a new brand colour.
+**Vercel and Stripe.** Primary buttons are #15803D with white text, at least 48px tall. Hover darkens to #0F3D2E so the white label stays AA. #16A34A is only a hover border on cards, never a fill behind white text. Focus uses a 2px #0F3D2E outline on light surfaces and an off-white outline on the deep-green footer. Invalid email uses the same deep green border.
+
+## Money palette
+
+The blue palette is replaced. Page background is warm off-white #F7F5EE. Alternate bands are white. Body text is near-black #0B0F0C. Muted text is #304136, which stays above 4.5:1 on both off-white and white. Deep green #0F3D2E is the footer, the small card labels, and the focus ring. The hero pill and the mark behind “Before they hit South Africa.” are gold #E8B931 with near-black text. Gold is not used as text on a light background.
+
+## Word reveal, count-up, and halftone
+
+The headline is still the same sentence. Each word is a span so CSS can bring it in. The gold mark is a solid fill that sweeps under the last phrase. With reduced motion, or before that animation runs, the mark is already fully drawn, and the words are in the HTML.
+
+The three sourced figures count from zero to the published number once the card is in view, in 1.1 seconds. The element’s width is locked to the final digits first, and the text is set back to the original sentence at the end. Reduced motion leaves the sentence alone.
+
+The headshot effect is a vanilla canvas version of [React Bits Halftone Reveal](https://reactbits.dev/c/animations/halftone-reveal) (MIT License with the Commons Clause). Green dots sit on off-white and swell into the photograph under a fine pointer. On touch, the same reveal follows how much of the portrait is in view. The photograph is a normal `img` in the HTML. The canvas is added only by the script. That script is linked only when `AUTHOR.photo` points at a real file under `public/` and a credential line is set. Until then the About page keeps the TODO block and the hero byline is omitted. No placeholder face is used.

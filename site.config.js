@@ -6,10 +6,14 @@
 
 export const BRAND = {
   name: "Copy It",
-  accent: "#1F4FFF",
-  text: "#0E1116",
-  muted: "#4A5363",
-  mist: "#F3F5F9",
+  text: "#0B0F0C",
+  muted: "#304136",
+  paper: "#F7F5EE",
+  deep: "#0F3D2E",
+  cta: "#15803D",
+  bright: "#16A34A",
+  gold: "#E8B931",
+  foam: "#E4E0D4",
   title: "Copy It | Overseas business ideas you can copy",
   description:
     "3 proven business ideas from overseas every week. How they make money and how to launch them in South Africa. Free.",
