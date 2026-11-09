@@ -42,7 +42,7 @@ await writeFile(join(publicDir, "apple-touch-icon.png"), apple);
 await writeFile(join(publicDir, "favicon.ico"), pngToIco(favicon32, 32));
 
 const line1 = "Business ideas working overseas.";
-const line2 = "Before they hit your market.";
+const line2 = "Before they hit South Africa.";
 const ogSvg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
   <rect width="1200" height="630" fill="#ffffff"/>

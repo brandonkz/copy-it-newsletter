@@ -2,17 +2,17 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import ideasFile from "../data/ideas.json" with { type: "json" };
 
-test("sample ideas are editable placeholders, not South African companies", () => {
-  assert.equal(ideasFile.ideas.length, 3);
-  assert.match(ideasFile.note, /SAMPLE/);
+test("idea cards name overseas businesses and cite a public source", () => {
+  assert.ok(ideasFile.ideas.length >= 1);
+  assert.doesNotMatch(JSON.stringify(ideasFile), /sample|not real|aren't real|are samples/i);
   for (const idea of ideasFile.ideas) {
-    assert.equal(idea.sample, true);
-    assert.equal(typeof idea.country, "string");
-    assert.notEqual(idea.country.trim().toLowerCase(), "south africa");
-    assert.doesNotMatch(`${idea.title} ${idea.summary}`, /\$\s?\d|R\s?\d{2,}|£\s?\d|€\s?\d/);
+    assert.equal(typeof idea.company, "string");
+    assert.equal(typeof idea.place, "string");
+    assert.equal(typeof idea.stat, "string");
+    assert.equal(typeof idea.how, "string");
+    assert.match(idea.sourceUrl, /^https:\/\//);
+    assert.equal(typeof idea.sourceLabel, "string");
+    assert.doesNotMatch(idea.place, /south africa/i);
+    assert.doesNotMatch(idea.company, /south africa/i);
   }
-  assert.deepEqual(
-    ideasFile.ideas.map((idea) => idea.country),
-    ["USA", "UK", "Japan"],
-  );
 });

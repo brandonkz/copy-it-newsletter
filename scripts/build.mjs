@@ -18,7 +18,7 @@ const RAW = new Set([
   "CONTENT",
   "GA_SNIPPET",
   "IDEAS",
-  "SAMPLE_NOTE",
+  "AUTHOR",
   "ANALYTICS_ITEM",
   "ANALYTICS_PROCESSORS",
 ]);
@@ -43,6 +43,13 @@ const pages = [
     path: "/privacy",
     title: "Privacy notice | Copy It",
     description: "How Copy It handles your email address, signup details, and analytics under POPIA.",
+    robots: config.noindex ? "noindex, nofollow" : "index, follow",
+  },
+  {
+    file: "about.html",
+    path: "/about",
+    title: "About | Copy It",
+    description: "Copy It is a free weekly email of overseas business ideas for South Africa.",
     robots: config.noindex ? "noindex, nofollow" : "index, follow",
   },
 ];
@@ -79,9 +86,6 @@ const header = await readFile(join(root, "src", "partials", "header.html"), "utf
 const footer = await readFile(join(root, "src", "partials", "footer.html"), "utf8");
 const ideaTemplate = await readFile(join(root, "src", "partials", "idea-card.html"), "utf8");
 const ideasHtml = renderIdeas(ideasFile.ideas, ideaTemplate);
-const sampleNote = ideasFile.ideas.every((idea) => idea.sample === true)
-  ? '<p class="mt-4 max-w-2xl text-base leading-relaxed text-muted">These three are samples of the format. Real issues will replace them.</p>'
-  : "";
 
 const shared = {
   TIKTOK_URL: config.tiktokUrl,
@@ -93,7 +97,7 @@ const shared = {
   OG_IMAGE: `${config.siteUrl}/og.png`,
   OG_ALT: `${config.name}. ${config.h1}`,
   IDEAS: ideasHtml,
-  SAMPLE_NOTE: sampleNote,
+  AUTHOR: renderAuthor(config.author),
   ANALYTICS_ITEM: config.ga4MeasurementId
     ? "If you browse the site: pages you view, plus general device, browser, and approximate location data, through Google Analytics 4. The tag is Google's gtag.js library, added on this site directly. Google Tag Manager is not used."
     : "Analytics is not loaded on this version of the site.",
@@ -136,10 +140,15 @@ await writeFile(
 );
 await writeFile(
   join(dist, "sitemap.xml"),
-  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>${config.siteUrl}/</loc></url>\n  <url><loc>${config.siteUrl}/privacy</loc></url>\n</urlset>\n`,
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>${config.siteUrl}/</loc></url>\n  <url><loc>${config.siteUrl}/about</loc></url>\n  <url><loc>${config.siteUrl}/privacy</loc></url>\n</urlset>\n`,
 );
 
 await verify(cssName, jsName);
+
+function renderAuthor(author) {
+  if (!author?.photo || !author?.credential) return "";
+  return `<p class="mt-6 flex items-center gap-3"><img src="${escapeHtml(author.photo)}" alt="" width="44" height="44" class="h-11 w-11 rounded-full object-cover"><span class="text-sm leading-5 text-ink"><span class="font-semibold">Written by ${escapeHtml(author.name || "Brandon K")}</span><span class="mt-0.5 block text-muted">${escapeHtml(author.credential)}</span></span></p>`;
+}
 
 function renderIdeas(ideas, template) {
   if (!Array.isArray(ideas) || ideas.length !== 3) {
@@ -147,15 +156,21 @@ function renderIdeas(ideas, template) {
   }
   return ideas
     .map((idea) => {
-      for (const key of ["country", "title", "summary"]) {
+      for (const key of ["company", "place", "stat", "how", "sourceUrl", "sourceLabel"]) {
         if (typeof idea[key] !== "string" || !idea[key].trim()) {
           throw new Error(`Each idea needs a ${key}`);
         }
       }
+      if (!/^https:\/\//.test(idea.sourceUrl)) {
+        throw new Error(`Idea source must be an https URL: ${idea.company}`);
+      }
       return applyTokens(template, {
-        COUNTRY: idea.country,
-        TITLE: idea.title,
-        SUMMARY: idea.summary,
+        COMPANY: idea.company,
+        PLACE: idea.place,
+        STAT: idea.stat,
+        HOW: idea.how,
+        SOURCE_URL: idea.sourceUrl,
+        SOURCE_LABEL: idea.sourceLabel,
       });
     })
     .join("\n");
@@ -211,7 +226,11 @@ async function verify(cssName, jsName) {
   expect(index.includes(config.tiktokUrl), "tiktok");
   expect(index.includes(config.instagramUrl), "instagram");
   expect(index.includes("Get the ideas"), "hero button");
-  expect(index.includes("Send me the list"), "banner button");
+  expect(index.includes("Before they hit South Africa."), "south africa headline");
+  expect(index.includes("in South Africa. Free."), "south africa description");
+  expect(!index.includes("your market") && !index.includes("Turn on JavaScript"), "old copy removed");
+  expect(!index.includes("samples of the format"), "sample disclaimer removed");
+  expect(index.includes('action="/api/subscribe"') && index.includes('method="post"'), "form post");
   expect(index.includes('value="hero"') && index.includes('value="footer"'), "form sources");
   expect(!index.includes("cdn.tailwindcss.com"), "no tailwind cdn");
   expect(!index.includes("gtm.js") && !index.includes("GTM-"), "no tag manager");
@@ -234,6 +253,9 @@ async function verify(cssName, jsName) {
   } else {
     expect(!index.includes("/gtag/js"), "analytics omitted");
   }
+  const about = await readFile(join(dist, "about.html"), "utf8");
+  expect(about.includes("TODO: Brandon's photo, name, and credential line"), "about placeholder");
+  expect(about.includes("mailto:"), "contact mailto");
   if (missing.length) throw new Error(`Build checks failed: ${missing.join(", ")}`);
 
   const og = await readFile(join(dist, "og.png"));
