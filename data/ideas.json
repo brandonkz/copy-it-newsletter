@@ -1,0 +1,23 @@
+{
+  "note": "SAMPLE entries. Replace these three with real past issues before launch. Do not invent revenue figures, quotes, or claims about named companies. Countries stay outside South Africa.",
+  "ideas": [
+    {
+      "sample": true,
+      "country": "USA",
+      "title": "A membership shelf for tools people rarely use",
+      "summary": "Neighbours borrow drills and ladders from a shared lockup for a monthly fee, instead of buying tools they need once."
+    },
+    {
+      "sample": true,
+      "country": "UK",
+      "title": "A weekly plant-care route for small offices",
+      "summary": "One person waters the plants in a cluster of small offices each week. Each office pays a flat fee so nobody on staff has to remember."
+    },
+    {
+      "sample": true,
+      "country": "Japan",
+      "title": "After-hours pickup lockers for independent shops",
+      "summary": "Lockers let customers collect paid orders after a shop has closed, so the shop can sell into the evening without staying open."
+    }
+  ]
+}
