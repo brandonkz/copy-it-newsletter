@@ -146,6 +146,10 @@ input.field:focus-visible {
   display: inline-block;
 }
 
+.video-row {
+  scrollbar-width: thin;
+}
+
 .gold-mark {
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;

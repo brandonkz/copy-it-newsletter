@@ -1,13 +1,14 @@
 import { createHash } from "node:crypto";
 import { execFile } from "node:child_process";
 import { existsSync } from "node:fs";
-import { mkdir, readFile, readdir, rm, stat, writeFile, copyFile } from "node:fs/promises";
+import { cp, mkdir, readFile, readdir, rm, stat, writeFile, copyFile } from "node:fs/promises";
 import { gzipSync } from "node:zlib";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import { getSiteConfig, GA4_MEASUREMENT_ID } from "../site.config.js";
-import ideasFile from "../data/ideas.json" with { type: "json" };
+import videosFile from "../data/videos.json" with { type: "json" };
+import { optimizeVideos, videoSources } from "./optimize-videos.mjs";
 
 const execFileAsync = promisify(execFile);
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -23,6 +24,8 @@ const RAW = new Set([
   "EXTRA_PROOF",
   "ABOUT_CARD",
   "HALFTONE_SCRIPT",
+  "STAT_HTML",
+  "PRIORITY",
   "ANALYTICS_ITEM",
   "ANALYTICS_PROCESSORS",
 ]);
@@ -90,8 +93,9 @@ if (ga.fileName) {
 const layout = await readFile(join(root, "src", "layout.html"), "utf8");
 const header = await readFile(join(root, "src", "partials", "header.html"), "utf8");
 const footer = await readFile(join(root, "src", "partials", "footer.html"), "utf8");
-const ideaTemplate = await readFile(join(root, "src", "partials", "idea-card.html"), "utf8");
-const ideasHtml = renderIdeas(ideasFile.ideas, ideaTemplate);
+const videoTemplate = await readFile(join(root, "src", "partials", "video-card.html"), "utf8");
+const videoManifest = await optimizeVideos(join(root, "assets", "video-thumbs"), join(root, "public", "videos"));
+const videosHtml = renderVideos(videosFile.videos, videoTemplate, videoManifest);
 
 const shared = {
   TIKTOK_URL: config.tiktokUrl,
@@ -102,7 +106,7 @@ const shared = {
   JS: `/assets/${jsName}`,
   OG_IMAGE: `${config.siteUrl}/og.png`,
   OG_ALT: `${config.name}. ${config.h1}`,
-  IDEAS: ideasHtml,
+  IDEAS: videosHtml,
   AUTHOR: renderAuthor(config.author),
   EXTRA_PROOF: renderExtraProof(config.extraSocialProof),
   ABOUT_CARD: renderAboutCard(config.author),
@@ -140,7 +144,10 @@ for (const page of pages) {
 
 const publicFiles = await readdir(join(root, "public"));
 for (const file of publicFiles) {
-  await copyFile(join(root, "public", file), join(dist, file));
+  const from = join(root, "public", file);
+  const to = join(dist, file);
+  if ((await stat(from)).isDirectory()) await cp(from, to, { recursive: true });
+  else await copyFile(from, to);
 }
 
 await writeFile(
@@ -199,27 +206,40 @@ async function halftoneAsset(author) {
   return { tag: `<script src="/assets/${name}" defer></script>` };
 }
 
-function renderIdeas(ideas, template) {
-  if (!Array.isArray(ideas) || ideas.length !== 3) {
-    throw new Error("data/ideas.json must contain exactly 3 ideas");
+function renderVideos(videos, template, manifest) {
+  if (!Array.isArray(videos) || videos.length !== 6) {
+    throw new Error("data/videos.json must contain exactly 6 videos");
   }
-  return ideas
-    .map((idea) => {
-      for (const key of ["company", "place", "stat", "how", "sourceUrl", "sourceLabel"]) {
-        if (typeof idea[key] !== "string" || !idea[key].trim()) {
-          throw new Error(`Each idea needs a ${key}`);
+  return videos
+    .map((video, index) => {
+      for (const key of ["slug", "title", "place", "description", "platform", "url", "videoId", "alt"]) {
+        if (typeof video[key] !== "string" || !video[key].trim()) {
+          throw new Error(`Each video needs a ${key}`);
         }
       }
-      if (!/^https:\/\//.test(idea.sourceUrl)) {
-        throw new Error(`Idea source must be an https URL: ${idea.company}`);
+      if (video.stat != null && typeof video.stat !== "string") {
+        throw new Error(`Stat for ${video.slug} must be a string`);
       }
+      const sources = videoSources(video.slug, manifest[video.slug]);
+      if (!sources) throw new Error(`Missing thumbnail for ${video.slug}`);
+      const eager = index < 3;
       return applyTokens(template, {
-        COMPANY: idea.company,
-        PLACE: idea.place,
-        STAT: idea.stat,
-        HOW: idea.how,
-        SOURCE_URL: idea.sourceUrl,
-        SOURCE_LABEL: idea.sourceLabel,
+        URL: video.url,
+        VIDEO_ID: video.videoId,
+        PLATFORM: video.platform,
+        PLACE: video.place,
+        TITLE: video.title,
+        DESCRIPTION: video.description,
+        ALT: video.alt,
+        AVIF_SRCSET: sources.avif,
+        WEBP_SRCSET: sources.webp,
+        JPG_SRCSET: sources.jpg,
+        JPG_SRC: sources.src,
+        LOADING: eager ? "eager" : "lazy",
+        PRIORITY: "",
+        STAT_HTML: video.stat
+          ? `<span class="stat mt-2 block text-sm font-semibold text-ink">${escapeHtml(video.stat)}</span>`
+          : "",
       });
     })
     .join("\n");

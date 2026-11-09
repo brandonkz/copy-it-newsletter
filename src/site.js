@@ -181,6 +181,17 @@
     });
   }
 
+  function bindVideos() {
+    document.addEventListener("click", function (event) {
+      var card = event.target.closest("[data-video]");
+      if (!card) return;
+      track("video_click", {
+        video_id: card.getAttribute("data-video-id") || "",
+        platform: card.getAttribute("data-platform") || "",
+      });
+    });
+  }
+
   function setupCount() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     if (!("IntersectionObserver" in window)) return;
@@ -268,4 +279,5 @@
   });
   showQueryError();
   bindSocial();
+  bindVideos();
 })();

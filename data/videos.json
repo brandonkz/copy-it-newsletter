@@ -1,0 +1,67 @@
+{
+  "note": "Published Copy It videos. Play counts are only included when they were supplied. Do not invent figures for the rest.",
+  "videos": [
+    {
+      "slug": "golf-simulator-trailer",
+      "title": "Mobile golf simulator trailer",
+      "place": "Fresno, USA",
+      "description": "A mobile golf simulator trailer from Birdie Club Rentals.",
+      "platform": "TikTok",
+      "url": "https://www.tiktok.com/@hecticza/video/7704985126618369301",
+      "videoId": "7704985126618369301",
+      "stat": "20,400 plays on TikTok",
+      "alt": "Thumbnail of the mobile golf simulator trailer breakdown, Birdie Club Rentals in Fresno"
+    },
+    {
+      "slug": "corporate-cake-gifting",
+      "title": "Corporate cake gifting",
+      "place": "USA",
+      "description": "Cakes sent as gifts to a company's people.",
+      "platform": "TikTok",
+      "url": "https://www.tiktok.com/@hecticza/video/7705738523663404340",
+      "videoId": "7705738523663404340",
+      "stat": "6,612 plays on TikTok",
+      "alt": "Thumbnail of the corporate cake gifting breakdown"
+    },
+    {
+      "slug": "couch-flip",
+      "title": "Couch flip",
+      "place": "USA",
+      "description": "Flip a couch and sell it the same night.",
+      "platform": "YouTube",
+      "url": "https://www.youtube.com/shorts/6N9BkhN_1Mk",
+      "videoId": "6N9BkhN_1Mk",
+      "alt": "Thumbnail of the couch flip breakdown"
+    },
+    {
+      "slug": "cowboy-stock-tank-pools",
+      "title": "Cowboy stock-tank pools",
+      "place": "USA",
+      "description": "Backyard pools made from stock tanks.",
+      "platform": "YouTube",
+      "url": "https://www.youtube.com/shorts/xBd1sD2yIKo",
+      "videoId": "xBd1sD2yIKo",
+      "alt": "Thumbnail of the cowboy stock-tank pools breakdown"
+    },
+    {
+      "slug": "sandwich-board",
+      "title": "Sandwich-board ads",
+      "place": "USA",
+      "description": "A free board for the restaurant, then ads you sell.",
+      "platform": "YouTube",
+      "url": "https://www.youtube.com/shorts/sCuTwB7ZcIY",
+      "videoId": "sCuTwB7ZcIY",
+      "alt": "Thumbnail of the sandwich-board ads breakdown"
+    },
+    {
+      "slug": "saturday-micro-bakery",
+      "title": "Saturday micro-bakery",
+      "place": "USA",
+      "description": "A bakery that opens on Saturday.",
+      "platform": "YouTube",
+      "url": "https://www.youtube.com/shorts/8nwJFOI6C80",
+      "videoId": "8nwJFOI6C80",
+      "alt": "Thumbnail of the Saturday micro-bakery breakdown"
+    }
+  ]
+}
