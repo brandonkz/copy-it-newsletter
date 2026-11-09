@@ -41,7 +41,7 @@ test("SITE_URL is the single canonical origin and falls back in order", () => {
     "https://copy-it.vercel.app",
   );
   assert.equal(resolveSiteUrl({ VERCEL_URL: "copy-it-git-preview.vercel.app" }), "https://copy-it-git-preview.vercel.app");
-  assert.equal(resolveSiteUrl({}), "http://localhost:4173");
+  assert.equal(resolveSiteUrl({}), "https://copyit.studio");
   assert.equal(getSiteConfig({}).redirectToThankYou, false);
   assert.equal(getSiteConfig({ REDIRECT_TO_THANK_YOU: "true" }).redirectToThankYou, true);
 });
