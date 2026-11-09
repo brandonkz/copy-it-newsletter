@@ -40,7 +40,7 @@ Principles taken from current marketing sites, and where they show up on Copy It
 
 ## Money palette
 
-The blue palette is replaced. Page background is warm off-white #F7F5EE. Alternate bands are white. Body text is near-black #0B0F0C. Muted text is #304136, which stays above 4.5:1 on both off-white and white. Deep green #0F3D2E is the footer, the small card labels, and the focus ring. The hero pill and the mark behind “Before they hit South Africa.” are gold #E8B931 with near-black text. Gold is not used as text on a light background.
+The blue palette is replaced. Page background is warm off-white #F7F5EE. Alternate bands are white. Body text is near-black #0B0F0C. Muted text is #304136, which stays above 4.5:1 on both off-white and white. Deep green #0F3D2E is the footer, the small card labels, and the focus ring. The hero pill and the mark behind “Copy brilliant ideas.” are gold #E8B931 with near-black text. Gold is not used as text on a light background.
 
 ## Word reveal, count-up, and halftone
 

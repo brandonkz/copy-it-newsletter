@@ -190,6 +190,7 @@ input.field:focus-visible {
   .d7 { animation-delay: 0.28s; }
   .d8 { animation-delay: 0.32s; }
   .d9 { animation-delay: 0.36s; }
+  .d10 { animation-delay: 0.4s; }
 
   .gold-mark {
     background-size: 0% 0.36em;
@@ -200,11 +201,9 @@ input.field:focus-visible {
     animation: word-in 0.38s ease both, gold-sweep 0.65s ease 0.4s forwards;
   }
 
-  .word.gold-mark.d5 { animation-delay: 0.2s, 0.4s; }
-  .word.gold-mark.d6 { animation-delay: 0.24s, 0.4s; }
-  .word.gold-mark.d7 { animation-delay: 0.28s, 0.4s; }
-  .word.gold-mark.d8 { animation-delay: 0.32s, 0.4s; }
-  .word.gold-mark.d9 { animation-delay: 0.36s, 0.4s; }
+  .word.gold-mark.d8 { animation-delay: 0.32s, 0.45s; }
+  .word.gold-mark.d9 { animation-delay: 0.36s, 0.45s; }
+  .word.gold-mark.d10 { animation-delay: 0.4s, 0.45s; }
 }
 
 @keyframes word-in {

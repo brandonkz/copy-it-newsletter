@@ -17,7 +17,7 @@ export const BRAND = {
   title: "Copy It | Overseas business ideas you can copy",
   description:
     "3 proven business ideas from overseas every week. How they make money and how to launch them in South Africa. Free.",
-  h1: "Business ideas working overseas. Before they hit South Africa.",
+  h1: "Replicate success. Don't try to reinvent things. Copy brilliant ideas.",
 };
 
 /**

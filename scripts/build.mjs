@@ -275,7 +275,7 @@ async function verify(cssName, jsName) {
   expect(index.includes(config.tiktokUrl), "tiktok");
   expect(index.includes(config.instagramUrl), "instagram");
   expect(index.includes("Get the ideas"), "hero button");
-  expect(index.includes("Before they hit South Africa."), "south africa headline");
+  expect(index.includes(">Replicate<") && index.includes(">success.<") && index.includes(">Don't<") && index.includes(">reinvent<") && index.includes(">ideas.<"), "headline");
   expect(index.includes("in South Africa. Free."), "south africa description");
   expect(!index.includes("your market") && !index.includes("Turn on JavaScript"), "old copy removed");
   expect(!index.includes("samples of the format"), "sample disclaimer removed");
