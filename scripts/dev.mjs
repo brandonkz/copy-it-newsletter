@@ -83,10 +83,15 @@ async function handleSubscribe(req, res) {
     return;
   }
   const text = raw.toString("utf8");
-  try {
-    req.body = text ? JSON.parse(text) : {};
-  } catch {
+  const type = String(req.headers["content-type"] || "");
+  if (type.includes("application/x-www-form-urlencoded")) {
     req.body = text;
+  } else {
+    try {
+      req.body = text ? JSON.parse(text) : {};
+    } catch {
+      req.body = text;
+    }
   }
 
   const env = { ...process.env };

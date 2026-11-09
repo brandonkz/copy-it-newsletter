@@ -1,6 +1,6 @@
 # Copy It
 
-Landing site for Copy It, Brandon’s weekly newsletter of overseas business ideas for South Africa. One job: collect email sign-ups.
+Landing site for Copy It, Brandon’s weekly newsletter of overseas business ideas for South Africa. It is live at [https://copyit.studio](https://copyit.studio). One job: collect email sign-ups.
 
 The pages are static HTML styled with Tailwind CSS, compiled and purged at build time. Sign-ups go to one Vercel function, `api/subscribe`, which calls the Beehiiv API. The Beehiiv API key never reaches the browser.
 
@@ -46,11 +46,15 @@ Page text lives in `src/pages/`. The header and footer live in `src/partials/`. 
 
 Tokens such as `{{TIKTOK_URL}}` are filled in at build time.
 
-## Swap the sample ideas
+## Edit the idea cards
 
-There are no real past issues yet. The three cards are samples in `data/ideas.json` (USA, UK, and Japan). They are generic concepts: no named companies, and no revenue figures.
+There is no back catalogue of issues yet, so the homepage section is “Ideas we’re covering”, not “past issues”. The cards in `data/ideas.json` are real overseas businesses. Each one needs `company`, `place`, `stat`, `how`, `sourceUrl`, and `sourceLabel`. The stat has to be a figure you can point at on that `sourceUrl`. Do not estimate or round a number up. Leave a card out if you cannot verify it. Rebuild after editing.
 
-Replace the three objects when real issues exist. Set `"sample": false` on each one and the “these are samples” line disappears. Keep `country`, `title`, and `summary`. Then rebuild.
+Current cards:
+
+- The Tool Library, Buffalo: $30 a year. [Membership page](https://thetoollibrary.org/membership/)
+- Library of Things, London: over 34,000 people have joined. [2024/25 London impact report](https://start.libraryofthings.co.uk/2025-london-impact-report)
+- Universal Yums, United States: over 100,000 active subscribers. [WooCommerce, 20 January 2025](https://woocommerce.com/posts/universal-yums-subscriptions-woocommerce/)
 
 ## Google Analytics
 
@@ -93,6 +97,8 @@ The body matches the current [create subscription](https://developers.beehiiv.co
 - `reactivate_existing: false` (the API default; a form submit does not opt someone back in after they unsubscribed)
 - `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content` as top-level fields when the visitor arrived with them
 - `referring_site` set to the Copy It page URL (origin and path, without the query string), so these signups can be segmented from the other brand
+
+Forms use `method="post"` and `action="/api/subscribe"`, so they work without JavaScript. A normal form post (`application/x-www-form-urlencoded`) gets a `303` redirect to `/thank-you` on success, or back to `/?error=<code>#<source>` on failure. The homepage explains those error codes when JavaScript is off, and shows the matching message next to the form when it is on. A `fetch` with `application/json` still gets a JSON response and the inline success or error. Hidden `utm_*` fields are filled by the script. If they are empty, the function reads UTM parameters from the page URL in the `Referer` header.
 - `custom_fields`: an array of `{ "name", "value" }` that always includes `brand` = `copy-it` and `source` (`hero` or `footer`), plus the same UTM values when they exist
 
 The page keeps UTM parameters in `sessionStorage` so they survive a click to another page on the site, then sends them with the form.
@@ -117,5 +123,5 @@ This repo is not deployed from here. To deploy it yourself:
 ## Open items
 
 - Replace `hello@copyit.example` in `site.config.js`. The privacy page marks that address as a TODO.
-- Replace the three sample ideas in `data/ideas.json` before calling them past issues.
+- Add Brandon’s photo and credential line in `AUTHOR` inside `site.config.js`. The “Written by Brandon K” byline stays hidden until both are set. The About page has a TODO block for the same reason.
 - Confirm the Beehiiv welcome email actually contains the 10-idea list.

@@ -3,6 +3,13 @@
   var UTM_STORAGE_KEY = "copyit_utm";
   var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   var SUCCESS = "You're in. Check your inbox for the 10 free ideas.";
+  var ERRORS = {
+    invalid_email: "Enter a valid email address.",
+    rejected: "We could not subscribe that email. If you already joined, check your inbox.",
+    rate_limit: "Too many attempts. Please try again in a little while.",
+    unavailable: "Signup is temporarily unavailable.",
+    bad_request: "Something went wrong. Please try again.",
+  };
 
   function track(name, params) {
     if (typeof window.gtag !== "function") return;
@@ -49,6 +56,28 @@
     return stored;
   }
 
+  function fillHidden(form) {
+    var utm = captureUtms();
+    UTM_KEYS.forEach(function (key) {
+      if (form.elements[key]) form.elements[key].value = utm[key] || "";
+    });
+    if (form.elements.page_url) {
+      form.elements.page_url.value = window.location.origin + window.location.pathname;
+    }
+  }
+
+  function showQueryError() {
+    var code = new URLSearchParams(window.location.search).get("error");
+    if (!code || !ERRORS[code]) return;
+    var hash = (window.location.hash || "").replace(/^#/, "");
+    var source = hash === "footer" || hash === "hero" ? hash : "hero";
+    var field = document.querySelector('form[data-subscribe] input[name="source"][value="' + source + '"]');
+    var form = field && field.form;
+    var status = form && form.querySelector("[data-status]");
+    if (!status) return;
+    setStatus(status, ERRORS[code], true);
+  }
+
   function setStatus(status, message, isError) {
     status.textContent = message;
     status.classList.toggle("text-danger", Boolean(isError) && Boolean(message));
@@ -81,15 +110,16 @@
       button.setAttribute("aria-busy", "true");
       button.textContent = "Sending…";
 
+      fillHidden(form);
       var payload = {
         email: email,
         source: sourceInput.value,
+        page_url: form.elements.page_url ? form.elements.page_url.value : "",
       };
-      var utm = captureUtms();
       UTM_KEYS.forEach(function (key) {
-        if (utm[key]) payload[key] = utm[key];
+        var value = form.elements[key] && form.elements[key].value;
+        if (value) payload[key] = value;
       });
-      payload.page_url = window.location.origin + window.location.pathname;
 
       var sent = false;
 
@@ -139,21 +169,6 @@
     });
   }
 
-  function bindScroll() {
-    var triggers = document.querySelectorAll("[data-scroll-join]");
-    triggers.forEach(function (trigger) {
-      trigger.addEventListener("click", function (event) {
-        var target = document.getElementById("join");
-        var input = document.getElementById("email-footer");
-        if (!target) return;
-        event.preventDefault();
-        var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        target.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
-        if (input) input.focus({ preventScroll: true });
-      });
-    });
-  }
-
   function bindSocial() {
     document.addEventListener("click", function (event) {
       var link = event.target.closest("[data-social]");
@@ -166,7 +181,10 @@
   }
 
   captureUtms();
-  document.querySelectorAll("form[data-subscribe]").forEach(bindForm);
-  bindScroll();
+  document.querySelectorAll("form[data-subscribe]").forEach(function (form) {
+    fillHidden(form);
+    bindForm(form);
+  });
+  showQueryError();
   bindSocial();
 })();

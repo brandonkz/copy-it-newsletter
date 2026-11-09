@@ -1,23 +1,29 @@
 {
-  "note": "SAMPLE entries. Replace these three with real past issues before launch. Do not invent revenue figures, quotes, or claims about named companies. Countries stay outside South Africa.",
+  "note": "Ideas we're covering. Each stat is quoted from the source URL, not estimated. Do not add a card without a public source for the number.",
   "ideas": [
     {
-      "sample": true,
-      "country": "USA",
-      "title": "A membership shelf for tools people rarely use",
-      "summary": "Neighbours borrow drills and ladders from a shared lockup for a monthly fee, instead of buying tools they need once."
+      "company": "The Tool Library",
+      "place": "Buffalo, USA",
+      "stat": "$30 a year",
+      "how": "Members pay an annual fee and borrow tools for a week, with no extra rental charge on a standard loan.",
+      "sourceUrl": "https://thetoollibrary.org/membership/",
+      "sourceLabel": "The Tool Library membership page"
     },
     {
-      "sample": true,
-      "country": "UK",
-      "title": "A weekly plant-care route for small offices",
-      "summary": "One person waters the plants in a cluster of small offices each week. Each office pays a flat fee so nobody on staff has to remember."
+      "company": "Library of Things",
+      "place": "London, UK",
+      "stat": "Over 34,000 people have joined",
+      "how": "It runs sharing libraries where people rent items instead of buying them.",
+      "sourceUrl": "https://start.libraryofthings.co.uk/2025-london-impact-report",
+      "sourceLabel": "Library of Things 2024/25 London impact report"
     },
     {
-      "sample": true,
-      "country": "Japan",
-      "title": "After-hours pickup lockers for independent shops",
-      "summary": "Lockers let customers collect paid orders after a shop has closed, so the shop can sell into the evening without staying open."
+      "company": "Universal Yums",
+      "place": "United States",
+      "stat": "Over 100,000 active subscribers",
+      "how": "Subscribers pay for a monthly box of snacks from one country at a time.",
+      "sourceUrl": "https://woocommerce.com/posts/universal-yums-subscriptions-woocommerce/",
+      "sourceLabel": "WooCommerce interview, 20 January 2025"
     }
   ]
 }

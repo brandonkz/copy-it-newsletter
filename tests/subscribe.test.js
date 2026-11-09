@@ -299,3 +299,45 @@ test("the route module exports a function", async () => {
   const module = await import("../api/subscribe.js");
   assert.equal(typeof module.default, "function");
 });
+
+test("urlencoded posts redirect instead of returning JSON", async () => {
+  const calls = [];
+  const fetchImpl = async (url, options) => {
+    calls.push(JSON.parse(options.body));
+    return { ok: true, status: 200, text: async () => '{"data":{"email":"reader@example.com"}}' };
+  };
+  const ok = await invoke({
+    headers: { "content-type": "application/x-www-form-urlencoded" },
+    body: "email=reader%40example.com&source=hero&page_url=https%3A%2F%2Fcopyit.studio%2F%3Futm_source%3Dtiktok&utm_medium=social",
+    fetchImpl,
+  });
+  assert.equal(ok.statusCode, 303);
+  assert.equal(ok.headers.location, "/thank-you");
+  assert.equal(ok.raw, "");
+  assert.equal(JSON.stringify(ok.headers).includes(API_KEY), false);
+  assert.equal(calls[0].email, "reader@example.com");
+  assert.equal(calls[0].referring_site, "https://copyit.studio/");
+  assert.equal(calls[0].utm_medium, "social");
+  assert.equal(calls[0].custom_fields[0].value, "copy-it");
+
+  const invalid = await invoke({
+    headers: { "content-type": "application/x-www-form-urlencoded" },
+    body: "email=not-an-email&source=footer",
+    fetchImpl,
+  });
+  assert.equal(invalid.statusCode, 303);
+  assert.equal(invalid.headers.location, "/?error=invalid_email#footer");
+
+  const fromReferer = await invoke({
+    headers: {
+      "content-type": "application/x-www-form-urlencoded",
+      referer: "https://copyit.studio/?utm_source=tiktok&utm_campaign=launch",
+    },
+    body: "email=reader%40example.com&source=hero",
+    fetchImpl,
+  });
+  assert.equal(fromReferer.statusCode, 303);
+  assert.equal(calls[1].utm_source, "tiktok");
+  assert.equal(calls[1].utm_campaign, "launch");
+  assert.equal(calls[1].referring_site, "https://copyit.studio/");
+});

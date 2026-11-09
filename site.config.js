@@ -12,8 +12,18 @@ export const BRAND = {
   mist: "#F3F5F9",
   title: "Copy It | Overseas business ideas you can copy",
   description:
-    "3 proven business ideas from overseas every week. How they make money and how to launch them locally. Free.",
-  h1: "Business ideas working overseas. Before they hit your market.",
+    "3 proven business ideas from overseas every week. How they make money and how to launch them in South Africa. Free.",
+  h1: "Business ideas working overseas. Before they hit South Africa.",
+};
+
+/**
+ * Byline next to the form. Hidden until both photo and credential are set.
+ * TODO: Add Brandon's photo path and credential line. Do not invent either.
+ */
+export const AUTHOR = {
+  name: "Brandon K",
+  photo: "",
+  credential: "",
 };
 
 export const TIKTOK_URL = "https://www.tiktok.com/@hecticza";
@@ -61,6 +71,7 @@ export function getSiteConfig(env = process.env) {
     tiktokUrl: TIKTOK_URL,
     instagramUrl: INSTAGRAM_URL,
     contactEmail: CONTACT_EMAIL,
+    author: AUTHOR,
     ga4MeasurementId: resolveGa4(env),
     redirectToThankYou: resolveRedirect(env),
     sendWelcomeEmail: SEND_WELCOME_EMAIL,
