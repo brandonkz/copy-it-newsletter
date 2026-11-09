@@ -2,7 +2,7 @@ import { mkdir, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import sharp from "sharp";
 
-const widths = [360, 720];
+const widths = [360, 540, 720];
 
 export async function optimizeVideos(sourceDir, outDir) {
   await mkdir(outDir, { recursive: true });
@@ -18,11 +18,14 @@ export async function optimizeVideos(sourceDir, outDir) {
 
     for (const width of widths) {
       if (meta.width < width && width !== 360) continue;
-      const resized = sharp(input).rotate().resize({ width, withoutEnlargement: true });
+      const resized = sharp(input)
+        .rotate()
+        .resize({ width, withoutEnlargement: true, kernel: "lanczos3" })
+        .sharpen({ sigma: 0.4 });
       const base = join(outDir, `${slug}-${width}`);
-      await resized.clone().avif({ quality: 28, effort: 6 }).toFile(`${base}.avif`);
-      await resized.clone().webp({ quality: 68 }).toFile(`${base}.webp`);
-      await resized.clone().jpeg({ quality: 72, mozjpeg: true }).toFile(`${base}.jpg`);
+      await resized.clone().avif({ quality: 24, effort: 6 }).toFile(`${base}.avif`);
+      await resized.clone().webp({ quality: 70 }).toFile(`${base}.webp`);
+      await resized.clone().jpeg({ quality: 74, mozjpeg: true }).toFile(`${base}.jpg`);
       made.push(width);
     }
 

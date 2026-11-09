@@ -19,6 +19,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
 }
 
 body {
@@ -26,8 +27,11 @@ body {
 }
 
 #hero,
-#footer {
-  scroll-margin-top: 5.5rem;
+#footer,
+h1,
+h2,
+h3 {
+  scroll-margin-top: 6rem;
 }
 
 :focus-visible {
