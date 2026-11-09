@@ -46,15 +46,9 @@ Page text lives in `src/pages/`. The header and footer live in `src/partials/`. 
 
 Tokens such as `{{TIKTOK_URL}}` are filled in at build time.
 
-## Edit the idea cards
+## Edit the video cards
 
-There is no back catalogue of issues yet, so the homepage section is “Ideas we’re covering”, not “past issues”. The cards in `data/ideas.json` are real overseas businesses. Each one needs `company`, `place`, `stat`, `how`, `sourceUrl`, and `sourceLabel`. The stat has to be a figure you can point at on that `sourceUrl`. Do not estimate or round a number up. Leave a card out if you cannot verify it. Rebuild after editing.
-
-Current cards:
-
-- The Tool Library, Buffalo: $30 a year. [Membership page](https://thetoollibrary.org/membership/)
-- Library of Things, London: over 34,000 people have joined. [2024/25 London impact report](https://start.libraryofthings.co.uk/2025-london-impact-report)
-- Universal Yums, United States: over 100,000 active subscribers. [WooCommerce, 20 January 2025](https://woocommerce.com/posts/universal-yums-subscriptions-woocommerce/)
+The homepage section “Watch the breakdowns” is the published Copy It videos in `data/videos.json`. Each entry needs a title, place, one-line description, platform, url, video id, alt text, and a thumbnail JPG in `assets/video-thumbs/` named `{slug}.jpg`. A `stat` is optional. Only add a play count you were given. The build writes WebP, AVIF, and JPG copies into `public/videos/`. Clicking a card opens the video on TikTok or YouTube and sends a `video_click` event with `video_id` and `platform`.
 
 ## Google Analytics
 

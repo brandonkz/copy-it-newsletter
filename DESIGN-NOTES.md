@@ -20,7 +20,7 @@ Principles taken from current marketing sites, and where they show up on Copy It
 
 ## Card design
 
-**Exploding Topics and Starter Story.** A card names the place, then the company, then one figure, then one sentence, then a source link. That order was already the content. The cards are flat, white, and hairline-bordered. Hover lifts them by 3px and turns the border accent. Press returns them. The facts and the source URLs are unchanged.
+**Exploding Topics and Starter Story.** The old text cards are gone. “Watch the breakdowns” uses vertical thumbnails: place, title, one line from the video title, and TikTok or YouTube. Only the two videos with a supplied play count show a number. Hover still lifts the card.
 
 ## Section pacing
 
