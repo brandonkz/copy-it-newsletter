@@ -48,7 +48,7 @@ export const CONTACT_EMAIL = "hello@copyit.example";
 export const REDIRECT_TO_THANK_YOU_DEFAULT = false;
 
 /**
- * The welcome email is how new readers get the 10-idea list.
+ * The welcome email is how new readers get the 19-idea list.
  * Beehiiv's API defaults this to false, so it is set explicitly.
  */
 export const SEND_WELCOME_EMAIL = true;

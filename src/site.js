@@ -2,7 +2,7 @@
   var UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"];
   var UTM_STORAGE_KEY = "copyit_utm";
   var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  var SUCCESS = "You're in. Check your inbox for the 10 free ideas.";
+  var SUCCESS = "You're in. Check your inbox for the 19 free ideas.";
   var ERRORS = {
     invalid_email: "Enter a valid email address.",
     rejected: "We could not subscribe that email. If you already joined, check your inbox.",

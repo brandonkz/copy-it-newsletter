@@ -42,7 +42,7 @@ const pages = [
     file: "thank-you.html",
     path: "/thank-you",
     title: "You're in | Copy It",
-    description: "You are subscribed to Copy It. Check your inbox for 10 free overseas business ideas.",
+    description: "You are subscribed to Copy It. Check your inbox for 19 free overseas business ideas.",
     robots: "noindex, nofollow",
   },
   {
@@ -326,6 +326,27 @@ async function verify(cssName, jsName) {
   const about = await readFile(join(dist, "about.html"), "utf8");
   expect(about.includes("TODO: Brandon's photo, name, and credential line"), "about placeholder");
   expect(about.includes("mailto:"), "contact mailto");
+  const thankYou = await readFile(join(dist, "thank-you.html"), "utf8");
+  expect(index.includes("19 ideas nobody has launched in South Africa yet"), "19-idea pill");
+  expect(index.includes("get 19 overseas ideas today"), "19 overseas ideas");
+  expect(index.includes("Get 19 ideas today"), "footer 19 ideas");
+  expect(index.includes("10,000 on TikTok"), "tiktok count unchanged");
+  expect(thankYou.includes("the 19 free ideas"), "thank-you 19 ideas");
+  expect(thankYou.includes("19 free overseas business ideas"), "thank-you description");
+  expect(jsText.includes("the 19 free ideas"), "success message");
+  for (const phrase of ["10 ideas", "10 free", "10 overseas", "10-idea"]) {
+    expect(!index.includes(phrase) && !thankYou.includes(phrase) && !jsText.includes(phrase), `stale copy: ${phrase}`);
+  }
+  const guideName = "19-business-ideas.pdf";
+  const publicGuide = join(root, "public", guideName);
+  const builtGuide = join(dist, guideName);
+  expect(existsSync(publicGuide) && existsSync(builtGuide), "lead magnet pdf");
+  if (existsSync(publicGuide) && existsSync(builtGuide)) {
+    const sourcePdf = await readFile(publicGuide);
+    const outputPdf = await readFile(builtGuide);
+    expect(sourcePdf.equals(outputPdf), "lead magnet pdf copied unchanged");
+    expect(outputPdf.subarray(0, 5).toString("utf8") === "%PDF-", "lead magnet pdf header");
+  }
   if (missing.length) throw new Error(`Build checks failed: ${missing.join(", ")}`);
 
   const og = await readFile(join(dist, "og.png"));
