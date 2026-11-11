@@ -87,7 +87,7 @@ Set `BEEHIIV_PUBLICATION_ID` only if that id should change. The API key stays in
 The body matches the current [create subscription](https://developers.beehiiv.com/api-reference/subscriptions/create) docs:
 
 - `email`
-- `send_welcome_email: true` (so the welcome email can carry the 10-idea list; the API default is false)
+- `send_welcome_email: true` (so the welcome email can carry the 19-idea list; the API default is false)
 - `reactivate_existing: false` (the API default; a form submit does not opt someone back in after they unsubscribed)
 - `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content` as top-level fields when the visitor arrived with them
 - `referring_site` set to the Copy It page URL (origin and path, without the query string), so these signups can be segmented from the other brand
@@ -99,7 +99,7 @@ The page keeps UTM parameters in `sessionStorage` so they survive a click to ano
 
 Create these custom fields on the Fitsorted publication before launch, or Beehiiv will ignore them: `brand`, `source`, `utm_term`, and `utm_content`. The function also sends `utm_source`, `utm_medium`, and `utm_campaign` as custom fields when those parameters are present, so create those too if you want them stored. A missing field does not stop the subscription; Beehiiv drops that value and can return a warning. The function does not show Beehiiv’s error text to the visitor.
 
-Put the 10 free ideas in the Beehiiv welcome email. This site does not send mail itself. Double opt-in stays on the publication’s own setting.
+Put the 19 free ideas in the Beehiiv welcome email. The approved guide is the static file at `/19-business-ideas.pdf`. This site does not send mail itself. Double opt-in stays on the publication’s own setting.
 
 Do not put `BEEHIIV_API_KEY` in client code, HTML, or the repo.
 
@@ -118,4 +118,4 @@ This repo is not deployed from here. To deploy it yourself:
 
 - Replace `hello@copyit.example` in `site.config.js`. The privacy page marks that address as a TODO.
 - Add Brandon’s photo and credential line in `AUTHOR` inside `site.config.js`. The “Written by Brandon K” byline stays hidden until both are set. The About page has a TODO block for the same reason.
-- Confirm the Beehiiv welcome email actually contains the 10-idea list.
+- Confirm the Beehiiv welcome email actually contains the 19-idea list.
